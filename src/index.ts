@@ -1,0 +1,11 @@
+import "reflect-metadata";
+import "dotenv/config";
+import path from "path";
+import { v4 } from "uuid";
+import express, { Express, Request, Response } from "express";
+import session from "express-session";
+import { createConnection, Connection } from "typeorm";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import cors from "cors";
+import database from "./config/database";
