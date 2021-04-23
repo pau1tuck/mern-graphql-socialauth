@@ -1,6 +1,6 @@
-import { createConnection } from "typeorm";
-
-export default {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     name: "mongo",
     type: "mongodb",
     url: process.env.DB_URL,
@@ -9,4 +9,5 @@ export default {
     loggerLevel: "info",
     useNewUrlParser: true,
     useUnifiedTopology: true,
-} as Parameters<typeof createConnection>[0];
+};
+//# sourceMappingURL=database.js.map
