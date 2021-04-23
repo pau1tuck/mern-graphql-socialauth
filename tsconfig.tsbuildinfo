@@ -4407,13 +4407,18 @@
         "affectsGlobalScope": false
       },
       "./src/config/database.ts": {
-        "version": "1d57e07cfe1e9209f273b1891adaa6c5ec5793d09c6cfa2c730f6a4815c4bf69",
+        "version": "b0857ce717b3d2bfd20cc2de6c000318a8956bc791eca5d648726c2297f0c22d",
         "signature": "79cf2eb0dee6cd74f71cf633a9cdfab2d1f7246d719047ca42c969697d88b6be",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
         "version": "04659dc7b39b6994de7f0c9061b85ac041c0818fd1039f8cdf1a368d19926d5a",
         "signature": "b80d267a27b198fdf0bf2e58970a636d649075a23dc07c4bf65bac1e715a6a56",
+        "affectsGlobalScope": false
+      },
+      "./src/entities/user.entity.ts": {
+        "version": "3b087a6717653bc70b6ec2366e8dbf2b574c7943ab08f9b99c72126475c3eb16",
+        "signature": "3a9e39c1c0a0bdc2a5de2de72f181623196f317c67aab582554ff31aa8bca2b1",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/minimatch/index.d.ts": {
@@ -8523,7 +8528,13 @@
         "./node_modules/typeorm/query-runner/queryrunner.d.ts"
       ],
       "./src/config/database.ts": [
+        "./node_modules/@types/node/path.d.ts",
         "./node_modules/tslib/tslib.d.ts",
+        "./node_modules/typeorm/index.d.ts"
+      ],
+      "./src/entities/user.entity.ts": [
+        "./node_modules/tslib/tslib.d.ts",
+        "./node_modules/type-graphql/dist/index.d.ts",
         "./node_modules/typeorm/index.d.ts"
       ],
       "./src/index.ts": [
@@ -13233,6 +13244,7 @@
       "./node_modules/typescript/lib/lib.es5.d.ts",
       "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "./src/config/database.ts",
+      "./src/entities/user.entity.ts",
       "./src/index.ts"
     ]
   },

@@ -1,3 +1,4 @@
+import path from "path";
 import { createConnection } from "typeorm";
 
 export default {
@@ -9,4 +10,9 @@ export default {
     loggerLevel: "info",
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    entities: [path.join(__dirname, "/entities/**/*.ts")],
+    migrations: [path.join(__dirname, "/migrations/**/*.ts")],
+    cli: {
+        migrationsDir: path.join(__dirname, "/migrations/"),
+    },
 } as Parameters<typeof createConnection>[0];

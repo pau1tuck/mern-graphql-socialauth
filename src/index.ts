@@ -22,14 +22,31 @@ const server = async () => {
             cookie: {
                 maxAge: 1000 * 60 * 60 * 24 * 30,
                 httpOnly: true,
-                sameSite: !!process.env.PRODUCTION || "lax",
-                secure: !!process.env.PRODUCTION,
+                sameSite: process.env.NODE_ENV === "production" ? true : "lax",
+                secure: process.env.NODE_ENV === "production",
             },
             secret: process.env.SESSION_SECRET || "secret",
             resave: false,
             saveUninitialized: false,
         })
     );
+
+    const graphQLSchema = await buildSchema({
+        resolvers: [path.join(__dirname, "/resolvers/**/*.ts")],
+        validate: false,
+    });
+
+    const apolloServer = new ApolloServer({
+        schema: graphQLSchema,
+        context: ({ req, res }: Request & Response) => ({
+            req,
+            res,
+        }),
+        introspection: !!process.env.DEBUG,
+        playground: !!process.env.DEBUG,
+    });
+
+    apolloServer.applyMiddleware({ app, cors: false });
 
     if (orm.isConnected) {
         console.log(`Connected to MongoDB`);
