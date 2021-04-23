@@ -4,7 +4,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    PrimaryGeneratedColumn,
+    ObjectIdColumn,
     UpdateDateColumn,
 } from "typeorm";
 
@@ -12,8 +12,11 @@ import {
 @Entity()
 export class User extends BaseEntity {
     @Field(() => ID)
-    @PrimaryGeneratedColumn()
+    @ObjectIdColumn()
     id!: number;
+
+    @Column({ nullable: true, default: null })
+    facebookId!: string;
 
     @Field()
     @Column()

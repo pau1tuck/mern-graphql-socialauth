@@ -6,8 +6,8 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc",
-        "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\"",
-        "start": "node dist/index.js",
+        "dev": "concurrently \"tsc -w\" \"nodemon api/index.js\"",
+        "start": "node api/index.js",
         "lint": "eslint '*/**/*.{ts,tsx}' --quiet --fix"
     },
     "dependencies": {

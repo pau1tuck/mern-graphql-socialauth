@@ -1,8 +1,8 @@
 import path from "path";
 import { createConnection } from "typeorm";
+import { User } from "../entities/user.entity";
 
 export default {
-    name: "mongo",
     type: "mongodb",
     url: process.env.DB_URL,
     synchronize: process.env.NODE_ENV !== "production",
@@ -10,9 +10,5 @@ export default {
     loggerLevel: "info",
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    entities: [path.join(__dirname, "/entities/**/*.ts")],
-    migrations: [path.join(__dirname, "/migrations/**/*.ts")],
-    cli: {
-        migrationsDir: path.join(__dirname, "/migrations/"),
-    },
+    entities: [User],
 } as Parameters<typeof createConnection>[0];
