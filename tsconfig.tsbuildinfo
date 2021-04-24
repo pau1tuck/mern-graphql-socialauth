@@ -446,11 +446,6 @@
         "signature": "d504adcb8e0c47a5e8863da80db139e680b349842bd7c9d4518d2a1019c140a7",
         "affectsGlobalScope": true
       },
-      "./node_modules/@types/passport-facebook/index.d.ts": {
-        "version": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
-        "signature": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
-        "affectsGlobalScope": false
-      },
       "./node_modules/typeorm/schema-builder/options/tablecolumnoptions.d.ts": {
         "version": "222ebf19b1260582fd2023a65c5b7da77f730021f05afb9c4ead4b0b339a8c98",
         "signature": "222ebf19b1260582fd2023a65c5b7da77f730021f05afb9c4ead4b0b339a8c98",
@@ -4421,9 +4416,19 @@
         "signature": "86ba810f782b1c70750b3b1ddcb32edea02ad0c516e10ed79c59f3015d195444",
         "affectsGlobalScope": false
       },
+      "./node_modules/@types/passport-facebook/index.d.ts": {
+        "version": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
+        "signature": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
+        "affectsGlobalScope": false
+      },
       "./src/entities/user.entity.ts": {
         "version": "f524cc65c576d0c6acb1f0599d2a7e1e0f5928407edb701dfd66d63fbe82a547",
         "signature": "2bc46ecf66931b4692526b45009bdbf969e79801530dd1048f15fcc6cdd0c975",
+        "affectsGlobalScope": false
+      },
+      "./src/config/passport.ts": {
+        "version": "d1793af0e87e8bc701fee519a331686c5f4a760e497270abdbfe968c9ddfcf84",
+        "signature": "756238eb1aba9d9a518e2deebae8de03b12b2623748d0a84a8204160b34ab9ae",
         "affectsGlobalScope": false
       },
       "./src/config/database.ts": {
@@ -4447,13 +4452,13 @@
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "0ad75d6350682e8853b5cc8afe31f76425f7244060a6ce042a6e2d7f255c8c96",
+        "version": "d2b0f5ddf88a7616b023c22221744b75a45fd47d9e255e369ebf8c47cde3d7ff",
         "signature": "b80d267a27b198fdf0bf2e58970a636d649075a23dc07c4bf65bac1e715a6a56",
         "affectsGlobalScope": false
       },
-      "./src/config/passport.ts": {
-        "version": "4bb64db455f2884204a5e693275e9436b0590441e053e1f50c34e61a7e2b32a2",
-        "signature": "73b2f3700703d2512e69a44e7011c544ce47a799e9b06c35d66b08de93886d71",
+      "./src/config/redis.ts": {
+        "version": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/minimatch/index.d.ts": {
@@ -8562,7 +8567,10 @@
         "./src/entities/user.entity.ts"
       ],
       "./src/config/passport.ts": [
-        "./node_modules/tslib/tslib.d.ts"
+        "./node_modules/@types/passport-facebook/index.d.ts",
+        "./node_modules/@types/passport/index.d.ts",
+        "./node_modules/tslib/tslib.d.ts",
+        "./src/entities/user.entity.ts"
       ],
       "./src/config/types.ts": [
         "./node_modules/@types/express/index.d.ts",
@@ -8578,7 +8586,6 @@
         "./node_modules/@types/express-session/index.d.ts",
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/@types/node/path.d.ts",
-        "./node_modules/@types/passport-facebook/index.d.ts",
         "./node_modules/@types/passport/index.d.ts",
         "./node_modules/@types/uuid/index.d.ts",
         "./node_modules/apollo-server-express/dist/index.d.ts",
@@ -8587,7 +8594,7 @@
         "./node_modules/type-graphql/dist/index.d.ts",
         "./node_modules/typeorm/index.d.ts",
         "./src/config/database.ts",
-        "./src/entities/user.entity.ts",
+        "./src/config/passport.ts",
         "./src/resolvers/user.resolver.ts"
       ],
       "./src/resolvers/user.resolver.ts": [
@@ -13306,33 +13313,11 @@
       "./node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "./src/config/database.ts",
       "./src/config/passport.ts",
+      "./src/config/redis.ts",
       "./src/config/types.ts",
       "./src/entities/user.entity.ts",
       "./src/env.d.ts",
-      [
-        "./src/index.ts",
-        [
-          {
-            "file": "./src/index.ts",
-            "start": 2414,
-            "length": 30,
-            "code": 2345,
-            "category": 1,
-            "messageText": {
-              "messageText": "Argument of type '{ facebookId: string; firstName: string; lastName: string | undefined; email: string | undefined; verified: true; }' is not assignable to parameter of type 'QueryDeepPartialEntity<User> | QueryDeepPartialEntity<User>[]'.",
-              "category": 1,
-              "code": 2345,
-              "next": [
-                {
-                  "messageText": "Object literal may only specify known properties, and 'firstName' does not exist in type 'QueryDeepPartialEntity<User> | QueryDeepPartialEntity<User>[]'.",
-                  "category": 1,
-                  "code": 2353
-                }
-              ]
-            }
-          }
-        ]
-      ],
+      "./src/index.ts",
       "./src/resolvers/user.resolver.ts"
     ]
   },
