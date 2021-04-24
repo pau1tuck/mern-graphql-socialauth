@@ -19,12 +19,17 @@ tslib_1.__decorate([
     type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
-], User.prototype, "firstName", void 0);
+], User.prototype, "givenName", void 0);
 tslib_1.__decorate([
     type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], User.prototype, "familyName", void 0);
+tslib_1.__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
+    tslib_1.__metadata("design:type", String)
+], User.prototype, "city", void 0);
 tslib_1.__decorate([
     type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),

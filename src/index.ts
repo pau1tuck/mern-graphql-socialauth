@@ -8,27 +8,10 @@ import passport from "passport";
 import passportFacebook from "passport-facebook";
 import { createConnection, Connection } from "typeorm";
 import { ApolloServer } from "apollo-server-express";
-import {
-    Arg,
-    buildSchema,
-    Ctx,
-    InputType,
-    Field,
-    Mutation,
-    Query,
-    Resolver,
-} from "type-graphql";
+import { buildSchema } from "type-graphql";
 import database from "./config/database";
 import { UserResolver } from "./resolvers/user.resolver";
 import { User } from "./entities/user.entity";
-import { IContext, UserInput } from "./config/types";
-
-declare module "express-session" {
-    interface Session {
-        userId?: number;
-        roles?: string[];
-    }
-}
 
 const server = async () => {
     const orm: Connection = await createConnection(database);
@@ -58,15 +41,6 @@ const server = async () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    const serializeUser = (currentUser: any) => {
-        passport.serializeUser((user, done) => {
-            done(null, {
-                userid: currentUser?.id,
-                roles: currentUser?.roles,
-            });
-        });
-    };
-
     passport.deserializeUser((obj, done) => {
         done(null, false); // invalidates the existing login session.
     });
@@ -78,17 +52,19 @@ const server = async () => {
                 clientID: String(process.env.FACEBOOK_APP_ID),
                 clientSecret: String(process.env.FACEBOOK_APP_SECRET),
                 callbackURL:
-                    "https://187a787e98b5.ngrok.io/auth/facebook/callback",
+                    "https://e4577d01c7a5.ngrok.io/auth/facebook/callback",
             },
             async (accessToken, refreshToken, profile, cb) => {
                 let matchingUser = await User.findOne({
                     where: { facebookId: profile.id },
                 });
                 if (!matchingUser) {
+                    // eslint-disable-next-line no-underscore-dangle
+                    console.log(profile._json);
                     try {
                         User.insert({
                             facebookId: profile.id,
-                            firstName: profile.name?.givenName,
+                            firstName: profile.displayName,
                             lastName: profile.name?.familyName,
                             email: profile.emails?.[0].value,
                             verified: true,
@@ -102,7 +78,7 @@ const server = async () => {
                 }
                 passport.serializeUser((user, done) => {
                     done(null, {
-                        userid: matchingUser?.id,
+                        userId: matchingUser?.id,
                         roles: matchingUser?.roles,
                     });
                 });

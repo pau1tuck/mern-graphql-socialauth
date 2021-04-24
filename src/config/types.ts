@@ -10,10 +10,10 @@ export interface IContext {
 @InputType()
 export class UserInput {
     @Field()
-    firstName!: string;
+    givenName!: string;
 
     @Field()
-    lastName!: string;
+    familyName!: string;
 
     @Field()
     country!: string;

@@ -20,11 +20,15 @@ export class User extends BaseEntity {
 
     @Field({ nullable: true })
     @Column({ nullable: true })
-    firstName?: string;
+    givenName?: string;
 
     @Field({ nullable: true })
     @Column({ nullable: true })
-    lastName?: string;
+    familyName?: string;
+
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    city?: string;
 
     @Field({ nullable: true })
     @Column({ nullable: true })

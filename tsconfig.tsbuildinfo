@@ -4422,8 +4422,8 @@
         "affectsGlobalScope": false
       },
       "./src/entities/user.entity.ts": {
-        "version": "269d82f47fbca8a7e21edf07a9211ad5db31adc9a75a22ca369c3368e4ed9c6a",
-        "signature": "c46a628bbbcb8a880ac779fcde32c72931fc108916ddd202b6cce4e20e66a451",
+        "version": "f524cc65c576d0c6acb1f0599d2a7e1e0f5928407edb701dfd66d63fbe82a547",
+        "signature": "2bc46ecf66931b4692526b45009bdbf969e79801530dd1048f15fcc6cdd0c975",
         "affectsGlobalScope": false
       },
       "./src/config/database.ts": {
@@ -4437,18 +4437,18 @@
         "affectsGlobalScope": false
       },
       "./src/config/types.ts": {
-        "version": "c3aa985b87f0b4e5a17d49dda167d04c9bad371f3c47c9f28af7fdbd5c9e79f7",
-        "signature": "856ceb87725c975e01200c2aaf3cd4261b909aad23139e8d8702f5cf4e9dcda3",
+        "version": "5aad68a0bf8bf4fb986d62f8faf584c202e9b5138dee4484169d81d7916604f3",
+        "signature": "d042280c4c4d8f2ab50a0ac45491e2b0de8444bd48469aaa31efc718f91ce72c",
         "affectsGlobalScope": false
       },
       "./src/resolvers/user.resolver.ts": {
-        "version": "f3f3f507c767a1e467d86f0669d342507cc966f622284e3ff62b1dcf42d15ae6",
+        "version": "552a0ca5d18767a37f663acff9d70daf52ceb9a5dabefd7578a5204c060dd0a7",
         "signature": "0bb44ab287abc4705d538ccb28a3c72fe52eb280594c8f8ee5d47b71232b7a22",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "194b2d526dcb52c0129ee959b56a0cfb8f3b14b2a065418861743feb360f3a95",
-        "signature": "6bf077f745fb3b22c380335b8642a2fa352e498f8a68a9c5ef3fa76a51fbd8dd",
+        "version": "0ad75d6350682e8853b5cc8afe31f76425f7244060a6ce042a6e2d7f255c8c96",
+        "signature": "b80d267a27b198fdf0bf2e58970a636d649075a23dc07c4bf65bac1e715a6a56",
         "affectsGlobalScope": false
       },
       "./src/config/passport.ts": {
@@ -8587,12 +8587,10 @@
         "./node_modules/type-graphql/dist/index.d.ts",
         "./node_modules/typeorm/index.d.ts",
         "./src/config/database.ts",
-        "./src/config/types.ts",
         "./src/entities/user.entity.ts",
         "./src/resolvers/user.resolver.ts"
       ],
       "./src/resolvers/user.resolver.ts": [
-        "./node_modules/@types/passport/index.d.ts",
         "./node_modules/argon2/argon2.d.ts",
         "./node_modules/tslib/tslib.d.ts",
         "./node_modules/type-graphql/dist/index.d.ts",
@@ -12352,7 +12350,6 @@
         "./node_modules/typeorm/index.d.ts"
       ],
       "./src/index.ts": [
-        "./node_modules/@types/express-session/index.d.ts",
         "./node_modules/reflect-metadata/index.d.ts"
       ],
       "./src/resolvers/user.resolver.ts": [
@@ -13312,7 +13309,30 @@
       "./src/config/types.ts",
       "./src/entities/user.entity.ts",
       "./src/env.d.ts",
-      "./src/index.ts",
+      [
+        "./src/index.ts",
+        [
+          {
+            "file": "./src/index.ts",
+            "start": 2414,
+            "length": 30,
+            "code": 2345,
+            "category": 1,
+            "messageText": {
+              "messageText": "Argument of type '{ facebookId: string; firstName: string; lastName: string | undefined; email: string | undefined; verified: true; }' is not assignable to parameter of type 'QueryDeepPartialEntity<User> | QueryDeepPartialEntity<User>[]'.",
+              "category": 1,
+              "code": 2345,
+              "next": [
+                {
+                  "messageText": "Object literal may only specify known properties, and 'firstName' does not exist in type 'QueryDeepPartialEntity<User> | QueryDeepPartialEntity<User>[]'.",
+                  "category": 1,
+                  "code": 2353
+                }
+              ]
+            }
+          }
+        ]
+      ],
       "./src/resolvers/user.resolver.ts"
     ]
   },

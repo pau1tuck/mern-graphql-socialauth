@@ -36,14 +36,6 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     }));
     app.use(passport_1.default.initialize());
     app.use(passport_1.default.session());
-    const serializeUser = (currentUser) => {
-        passport_1.default.serializeUser((user, done) => {
-            done(null, {
-                userid: currentUser === null || currentUser === void 0 ? void 0 : currentUser.id,
-                roles: currentUser === null || currentUser === void 0 ? void 0 : currentUser.roles,
-            });
-        });
-    };
     passport_1.default.deserializeUser((obj, done) => {
         done(null, false);
     });
@@ -51,19 +43,20 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     passport_1.default.use(new FacebookStrategy({
         clientID: String(process.env.FACEBOOK_APP_ID),
         clientSecret: String(process.env.FACEBOOK_APP_SECRET),
-        callbackURL: "https://187a787e98b5.ngrok.io/auth/facebook/callback",
+        callbackURL: "https://e4577d01c7a5.ngrok.io/auth/facebook/callback",
     }, (accessToken, refreshToken, profile, cb) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c;
+        var _a, _b;
         let matchingUser = yield user_entity_1.User.findOne({
             where: { facebookId: profile.id },
         });
         if (!matchingUser) {
+            console.log(profile._json);
             try {
                 user_entity_1.User.insert({
                     facebookId: profile.id,
-                    firstName: (_a = profile.name) === null || _a === void 0 ? void 0 : _a.givenName,
-                    lastName: (_b = profile.name) === null || _b === void 0 ? void 0 : _b.familyName,
-                    email: (_c = profile.emails) === null || _c === void 0 ? void 0 : _c[0].value,
+                    firstName: profile.displayName,
+                    lastName: (_a = profile.name) === null || _a === void 0 ? void 0 : _a.familyName,
+                    email: (_b = profile.emails) === null || _b === void 0 ? void 0 : _b[0].value,
                     verified: true,
                 });
             }
@@ -76,7 +69,7 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         }
         passport_1.default.serializeUser((user, done) => {
             done(null, {
-                userid: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id,
+                userId: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id,
                 roles: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.roles,
             });
         });

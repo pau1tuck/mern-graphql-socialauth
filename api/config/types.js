@@ -8,11 +8,11 @@ let UserInput = class UserInput {
 tslib_1.__decorate([
     type_graphql_1.Field(),
     tslib_1.__metadata("design:type", String)
-], UserInput.prototype, "firstName", void 0);
+], UserInput.prototype, "givenName", void 0);
 tslib_1.__decorate([
     type_graphql_1.Field(),
     tslib_1.__metadata("design:type", String)
-], UserInput.prototype, "lastName", void 0);
+], UserInput.prototype, "familyName", void 0);
 tslib_1.__decorate([
     type_graphql_1.Field(),
     tslib_1.__metadata("design:type", String)

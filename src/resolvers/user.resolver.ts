@@ -1,13 +1,4 @@
-import passport from "passport";
-import {
-    Arg,
-    Ctx,
-    InputType,
-    Field,
-    Mutation,
-    Query,
-    Resolver,
-} from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { User } from "../entities/user.entity";
 import { IContext, UserInput } from "../config/types";
@@ -75,9 +66,6 @@ export class UserResolver {
         if (!matchingUser.verified) {
             throw new Error("Email address not verified");
         }
-
-        /* ctx.req.session.userId = matchingUser.id;
-        ctx.req.session.roles = matchingUser.roles; */
 
         ctx.req.session.passport = {
             user: { userId: matchingUser.id, roles: matchingUser.roles },
