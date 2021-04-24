@@ -1,3 +1,4 @@
+import passport from "passport";
 import {
     Arg,
     Ctx,
@@ -57,25 +58,33 @@ export class UserResolver {
         @Arg("password") password: string,
         @Ctx() ctx: IContext
     ): Promise<User | null> {
-        const user = await User.findOne({ where: { email } });
+        const matchingUser = await User.findOne({ where: { email } });
 
-        if (!user) {
+        if (!matchingUser || !matchingUser.password) {
             throw new Error("Email address not registered");
+        } else {
+            const checkPassword = await argon2.verify(
+                matchingUser.password,
+                password
+            );
+            if (!checkPassword) {
+                throw new Error("Incorrect password");
+            }
         }
 
-        const checkPassword = await argon2.verify(user.password, password);
-        if (!checkPassword) {
-            throw new Error("Incorrect password");
-        }
-
-        if (!user.verified) {
+        if (!matchingUser.verified) {
             throw new Error("Email address not verified");
         }
 
-        ctx.req.session.userId = user.id;
-        ctx.req.session.roles = user.roles;
+        /* ctx.req.session.userId = matchingUser.id;
+        ctx.req.session.roles = matchingUser.roles; */
 
-        console.log(`${user.email} logged in`);
-        return user;
+        ctx.req.session.passport = {
+            user: { userId: matchingUser.id, roles: matchingUser.roles },
+        };
+
+        console.log(`${matchingUser.email} logged in`);
+        console.log(ctx.req.session);
+        return matchingUser;
     }
 }

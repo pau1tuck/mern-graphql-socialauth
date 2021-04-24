@@ -10,8 +10,8 @@ const express_session_1 = tslib_1.__importDefault(require("express-session"));
 const passport_1 = tslib_1.__importDefault(require("passport"));
 const passport_facebook_1 = tslib_1.__importDefault(require("passport-facebook"));
 const typeorm_1 = require("typeorm");
-const type_graphql_1 = require("type-graphql");
 const apollo_server_express_1 = require("apollo-server-express");
+const type_graphql_1 = require("type-graphql");
 const database_1 = tslib_1.__importDefault(require("./config/database"));
 const user_resolver_1 = require("./resolvers/user.resolver");
 const user_entity_1 = require("./entities/user.entity");
@@ -22,12 +22,11 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     app.use(express_session_1.default({
         name: "sid",
         genid: (req) => {
-            console.log(req.sessionID);
             return uuid_1.v4();
         },
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 30,
-            httpOnly: true,
+            httpOnly: false,
             sameSite: process.env.NODE_ENV === "production" ? true : "lax",
             secure: process.env.NODE_ENV === "production",
         },
@@ -35,29 +34,52 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         resave: false,
         saveUninitialized: false,
     }));
-    passport_1.default.session();
-    passport_1.default.serializeUser((user, done) => {
-        done(null, user);
+    app.use(passport_1.default.initialize());
+    app.use(passport_1.default.session());
+    passport_1.default.deserializeUser((obj, done) => {
+        done(null, false);
     });
     const FacebookStrategy = passport_facebook_1.default.Strategy;
     passport_1.default.use(new FacebookStrategy({
         clientID: String(process.env.FACEBOOK_APP_ID),
         clientSecret: String(process.env.FACEBOOK_APP_SECRET),
-        callbackURL: "https://3f6026033a33.ngrok.io/auth/facebook/callback",
+        callbackURL: "https://187a787e98b5.ngrok.io/auth/facebook/callback",
     }, (accessToken, refreshToken, profile, cb) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
-        console.log(`Profile: ${profile.id}`);
-        const user = yield user_entity_1.User.findOne({
+        var _a, _b, _c;
+        const matchingUser = yield user_entity_1.User.findOne({
             where: { facebookId: profile.id },
         });
-        if (user) {
-            cb(null, user);
+        if (matchingUser) {
+            passport_1.default.serializeUser((user, done) => {
+                done(null, {
+                    userid: matchingUser.id,
+                    roles: matchingUser.roles,
+                });
+            });
+            cb(null, matchingUser);
         }
         else {
-            console.log("User does not exist.");
+            try {
+                user_entity_1.User.insert({
+                    facebookId: profile.id,
+                    firstName: (_a = profile.name) === null || _a === void 0 ? void 0 : _a.givenName,
+                    lastName: (_b = profile.name) === null || _b === void 0 ? void 0 : _b.familyName,
+                    email: (_c = profile.emails) === null || _c === void 0 ? void 0 : _c[0].value,
+                    verified: true,
+                });
+            }
+            catch (err) {
+                console.log(err);
+            }
+            const user = yield user_entity_1.User.findOne({
+                where: { facebookId: profile.id },
+            });
+            app.use((req) => {
+                req.session.userId = user === null || user === void 0 ? void 0 : user.id;
+            });
+            cb(null);
         }
     })));
-    app.use(passport_1.default.initialize());
-    console.log(app);
     const graphQLSchema = yield type_graphql_1.buildSchema({
         resolvers: [user_resolver_1.UserResolver],
         validate: false,
@@ -85,7 +107,6 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     });
     app.use("/static", express_1.default.static("public/dist"));
     app.get("/", (req, res) => {
-        console.log(req.sessionID);
         res.sendFile(path_1.default.resolve(__dirname, "../public/index.html"));
     });
     app.listen(process.env.PORT, () => {

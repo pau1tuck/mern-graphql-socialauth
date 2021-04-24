@@ -37,21 +37,25 @@ let UserResolver = class UserResolver {
     }
     login(email, password, ctx) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const user = yield user_entity_1.User.findOne({ where: { email } });
-            if (!user) {
+            const matchingUser = yield user_entity_1.User.findOne({ where: { email } });
+            if (!matchingUser || !matchingUser.password) {
                 throw new Error("Email address not registered");
             }
-            const checkPassword = yield argon2_1.default.verify(user.password, password);
-            if (!checkPassword) {
-                throw new Error("Incorrect password");
+            else {
+                const checkPassword = yield argon2_1.default.verify(matchingUser.password, password);
+                if (!checkPassword) {
+                    throw new Error("Incorrect password");
+                }
             }
-            if (!user.verified) {
+            if (!matchingUser.verified) {
                 throw new Error("Email address not verified");
             }
-            ctx.req.session.userId = user.id;
-            ctx.req.session.roles = user.roles;
-            console.log(`${user.email} logged in`);
-            return user;
+            ctx.req.session.passport = {
+                user: { userId: matchingUser.id, roles: matchingUser.roles },
+            };
+            console.log(`${matchingUser.email} logged in`);
+            console.log(ctx.req.session);
+            return matchingUser;
         });
     }
 };

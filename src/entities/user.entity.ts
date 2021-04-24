@@ -16,26 +16,26 @@ export class User extends BaseEntity {
     id!: number;
 
     @Column({ nullable: true, default: null })
-    facebookId!: string;
+    facebookId?: string;
 
-    @Field()
-    @Column()
-    firstName!: string;
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    firstName?: string;
 
-    @Field()
-    @Column()
-    lastName!: string;
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    lastName?: string;
 
-    @Field()
-    @Column()
-    country!: string;
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    country?: string;
 
-    @Field()
-    @Column({ unique: true })
-    email!: string;
+    @Field({ nullable: true })
+    @Column({ nullable: true })
+    email?: string;
 
-    @Column()
-    password!: string;
+    @Column({ nullable: true })
+    password?: string;
 
     @Field()
     @Column({ default: false })

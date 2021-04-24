@@ -16,27 +16,27 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "facebookId", void 0);
 tslib_1.__decorate([
-    type_graphql_1.Field(),
-    typeorm_1.Column(),
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "firstName", void 0);
 tslib_1.__decorate([
-    type_graphql_1.Field(),
-    typeorm_1.Column(),
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "lastName", void 0);
 tslib_1.__decorate([
-    type_graphql_1.Field(),
-    typeorm_1.Column(),
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "country", void 0);
 tslib_1.__decorate([
-    type_graphql_1.Field(),
-    typeorm_1.Column({ unique: true }),
+    type_graphql_1.Field({ nullable: true }),
+    typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "email", void 0);
 tslib_1.__decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "password", void 0);
 tslib_1.__decorate([

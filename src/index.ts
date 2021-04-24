@@ -7,11 +7,28 @@ import session from "express-session";
 import passport from "passport";
 import passportFacebook from "passport-facebook";
 import { createConnection, Connection } from "typeorm";
-import { buildSchema } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
+import {
+    Arg,
+    buildSchema,
+    Ctx,
+    InputType,
+    Field,
+    Mutation,
+    Query,
+    Resolver,
+} from "type-graphql";
 import database from "./config/database";
 import { UserResolver } from "./resolvers/user.resolver";
 import { User } from "./entities/user.entity";
+import { IContext, UserInput } from "./config/types";
+
+declare module "express-session" {
+    interface Session {
+        userId?: number;
+        roles?: string[];
+    }
+}
 
 const server = async () => {
     const orm: Connection = await createConnection(database);
@@ -24,12 +41,11 @@ const server = async () => {
         session({
             name: "sid",
             genid: (req) => {
-                console.log(req.sessionID);
                 return v4();
             },
             cookie: {
                 maxAge: 1000 * 60 * 60 * 24 * 30,
-                httpOnly: true,
+                httpOnly: false,
                 sameSite: process.env.NODE_ENV === "production" ? true : "lax",
                 secure: process.env.NODE_ENV === "production",
             },
@@ -39,10 +55,11 @@ const server = async () => {
         })
     );
 
-    passport.session();
+    app.use(passport.initialize());
+    app.use(passport.session());
 
-    passport.serializeUser((user, done) => {
-        done(null, user);
+    passport.deserializeUser((obj, done) => {
+        done(null, false); // invalidates the existing login session.
     });
 
     const FacebookStrategy = passportFacebook.Strategy;
@@ -52,24 +69,43 @@ const server = async () => {
                 clientID: String(process.env.FACEBOOK_APP_ID),
                 clientSecret: String(process.env.FACEBOOK_APP_SECRET),
                 callbackURL:
-                    "https://3f6026033a33.ngrok.io/auth/facebook/callback",
+                    "https://187a787e98b5.ngrok.io/auth/facebook/callback",
             },
             async (accessToken, refreshToken, profile, cb) => {
-                console.log(`Profile: ${profile.id}`);
-                const user = await User.findOne({
+                const matchingUser = await User.findOne({
                     where: { facebookId: profile.id },
                 });
-                if (user) {
-                    cb(null, user);
+                if (matchingUser) {
+                    passport.serializeUser((user, done) => {
+                        done(null, {
+                            userid: matchingUser.id,
+                            roles: matchingUser.roles,
+                        });
+                    });
+                    cb(null, matchingUser);
                 } else {
-                    console.log("User does not exist.");
+                    try {
+                        User.insert({
+                            facebookId: profile.id,
+                            firstName: profile.name?.givenName,
+                            lastName: profile.name?.familyName,
+                            email: profile.emails?.[0].value,
+                            verified: true,
+                        });
+                    } catch (err) {
+                        console.log(err);
+                    }
+                    const user = await User.findOne({
+                        where: { facebookId: profile.id },
+                    });
+                    app.use((req: Request) => {
+                        req.session.userId = user?.id;
+                    });
+                    cb(null);
                 }
             }
         )
     );
-
-    app.use(passport.initialize());
-    console.log(app);
 
     const graphQLSchema = await buildSchema({
         resolvers: [UserResolver],
@@ -100,7 +136,7 @@ const server = async () => {
             failureRedirect: "/",
             failureFlash: true,
         }),
-        (req, res: Response) => {
+        (req, res) => {
             console.log(req.session);
             res.redirect("/");
         }
@@ -109,7 +145,6 @@ const server = async () => {
     app.use("/static", express.static("public/dist"));
 
     app.get("/", (req: Request, res: Response) => {
-        console.log(req.sessionID);
         res.sendFile(path.resolve(__dirname, "../public/index.html"));
     });
 
