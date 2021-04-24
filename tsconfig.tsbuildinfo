@@ -441,6 +441,16 @@
         "signature": "2e5548bb0a712c33b2865a49051bd41e2dc429249c8906f190969ea1497c4942",
         "affectsGlobalScope": true
       },
+      "./node_modules/@types/passport/index.d.ts": {
+        "version": "d504adcb8e0c47a5e8863da80db139e680b349842bd7c9d4518d2a1019c140a7",
+        "signature": "d504adcb8e0c47a5e8863da80db139e680b349842bd7c9d4518d2a1019c140a7",
+        "affectsGlobalScope": true
+      },
+      "./node_modules/@types/passport-facebook/index.d.ts": {
+        "version": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
+        "signature": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
+        "affectsGlobalScope": false
+      },
       "./node_modules/typeorm/schema-builder/options/tablecolumnoptions.d.ts": {
         "version": "222ebf19b1260582fd2023a65c5b7da77f730021f05afb9c4ead4b0b339a8c98",
         "signature": "222ebf19b1260582fd2023a65c5b7da77f730021f05afb9c4ead4b0b339a8c98",
@@ -4412,8 +4422,8 @@
         "affectsGlobalScope": false
       },
       "./src/entities/user.entity.ts": {
-        "version": "d05017047c4b0e5ab246119eb0b33edb054d95a56526b252d8cbab407d3cec43",
-        "signature": "9ddcfcdc9cbf6c2622b36a5788ec1112226902db4c39eef6f5175d585a0cf510",
+        "version": "73fab1ff633a505fb51d0a81bbe0766d9e0b6dd376984e78dab1baf12f470d71",
+        "signature": "2fd11e17e6f7931b1e8aa390b321aab3f24495271c8d50cabd41a918d7266347",
         "affectsGlobalScope": false
       },
       "./src/config/database.ts": {
@@ -4432,23 +4442,18 @@
         "affectsGlobalScope": false
       },
       "./src/resolvers/user.resolver.ts": {
-        "version": "b5b86b138b32b83c7447ae9d306251b8af50bbf9f5cbf2e191dda7f00522a68f",
+        "version": "25c680d6242efab2eae26e6899367327672d70d79f4fe559b3e6b7fc77aec426",
         "signature": "0bb44ab287abc4705d538ccb28a3c72fe52eb280594c8f8ee5d47b71232b7a22",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "16577b8bea6a1f43a600babe841fdb6682535796388ffc4d32847940d19d00aa",
+        "version": "c1014f556eb68de11c61e73c19c76fae408ae689a5c299ede6354c00a6e84b88",
         "signature": "b80d267a27b198fdf0bf2e58970a636d649075a23dc07c4bf65bac1e715a6a56",
         "affectsGlobalScope": false
       },
       "./src/config/passport.ts": {
         "version": "4bb64db455f2884204a5e693275e9436b0590441e053e1f50c34e61a7e2b32a2",
         "signature": "73b2f3700703d2512e69a44e7011c544ce47a799e9b06c35d66b08de93886d71",
-        "affectsGlobalScope": false
-      },
-      "./src/resolvers/facebook.resolver.ts": {
-        "version": "2c96d813808e3b68fcabf3bcb8117573a4ea457b19dda47241901e32a322a147",
-        "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/minimatch/index.d.ts": {
@@ -4554,16 +4559,6 @@
       "./node_modules/@types/nodemailer/index.d.ts": {
         "version": "eaa6770d1989e69958307203c67f67c7abfb5195831d9b5c9350ccb616fe1c9e",
         "signature": "eaa6770d1989e69958307203c67f67c7abfb5195831d9b5c9350ccb616fe1c9e",
-        "affectsGlobalScope": false
-      },
-      "./node_modules/@types/passport/index.d.ts": {
-        "version": "d504adcb8e0c47a5e8863da80db139e680b349842bd7c9d4518d2a1019c140a7",
-        "signature": "d504adcb8e0c47a5e8863da80db139e680b349842bd7c9d4518d2a1019c140a7",
-        "affectsGlobalScope": true
-      },
-      "./node_modules/@types/passport-facebook/index.d.ts": {
-        "version": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
-        "signature": "d90fd1d9dec7f69b8ade54329d7a7c453cdb15978123b40f5dbcaadb5c2f4990",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/semver/classes/semver.d.ts": {
@@ -8583,6 +8578,8 @@
         "./node_modules/@types/express-session/index.d.ts",
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/@types/node/path.d.ts",
+        "./node_modules/@types/passport-facebook/index.d.ts",
+        "./node_modules/@types/passport/index.d.ts",
         "./node_modules/@types/uuid/index.d.ts",
         "./node_modules/apollo-server-express/dist/index.d.ts",
         "./node_modules/reflect-metadata/index.d.ts",
@@ -8590,13 +8587,8 @@
         "./node_modules/type-graphql/dist/index.d.ts",
         "./node_modules/typeorm/index.d.ts",
         "./src/config/database.ts",
+        "./src/entities/user.entity.ts",
         "./src/resolvers/user.resolver.ts"
-      ],
-      "./src/resolvers/facebook.resolver.ts": [
-        "./node_modules/@types/uuid/index.d.ts",
-        "./node_modules/tslib/tslib.d.ts",
-        "./src/config/types.ts",
-        "./src/entities/user.entity.ts"
       ],
       "./src/resolvers/user.resolver.ts": [
         "./node_modules/argon2/argon2.d.ts",
@@ -13318,35 +13310,6 @@
       "./src/entities/user.entity.ts",
       "./src/env.d.ts",
       "./src/index.ts",
-      [
-        "./src/resolvers/facebook.resolver.ts",
-        [
-          {
-            "file": "./src/resolvers/facebook.resolver.ts",
-            "start": 330,
-            "length": 4,
-            "code": 2339,
-            "category": 1,
-            "messageText": "Property 'find' does not exist on type 'Promise<User | undefined>'."
-          },
-          {
-            "file": "./src/resolvers/facebook.resolver.ts",
-            "start": 336,
-            "length": 4,
-            "messageText": "Parameter 'user' implicitly has an 'any' type.",
-            "category": 1,
-            "code": 7006
-          },
-          {
-            "file": "./src/resolvers/facebook.resolver.ts",
-            "start": 770,
-            "length": 4,
-            "code": 2339,
-            "category": 1,
-            "messageText": "Property 'push' does not exist on type 'Promise<User | undefined>'."
-          }
-        ]
-      ],
       "./src/resolvers/user.resolver.ts"
     ]
   },

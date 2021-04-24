@@ -18,8 +18,10 @@ let UserResolver = class UserResolver {
     }
     register(input, password) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const exists = yield user_entity_1.User.findOne({ where: { email: input.email } });
-            if (exists) {
+            const matchingUser = yield user_entity_1.User.findOne({
+                where: { email: input.email },
+            });
+            if (matchingUser) {
                 throw new Error("Email address already registered");
             }
             const encryptedPassword = yield argon2_1.default.hash(password);

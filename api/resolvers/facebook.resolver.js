@@ -4,8 +4,7 @@ const tslib_1 = require("tslib");
 const uuid_1 = require("uuid");
 const user_entity_1 = require("../entities/user.entity");
 const facebookCallback = (accessToken, refreshToken, profile, done) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
-    const users = user_entity_1.User.findOne();
-    const matchingUser = users.find((user) => user.facebookId === profile.id);
+    const matchingUser = user_entity_1.User.findOne({ where: { facebookId: profile.id } });
     if (matchingUser) {
         done(null, matchingUser);
         return;

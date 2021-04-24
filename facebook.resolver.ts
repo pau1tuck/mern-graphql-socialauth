@@ -1,5 +1,4 @@
 import { v4 } from "uuid";
-import { Profile } from "passport-facebook";
 import { User } from "../entities/user.entity";
 import { IContext, UserInput } from "../config/types";
 
