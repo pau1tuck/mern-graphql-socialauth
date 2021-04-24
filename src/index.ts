@@ -58,6 +58,15 @@ const server = async () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
+    const serializeUser = (currentUser: any) => {
+        passport.serializeUser((user, done) => {
+            done(null, {
+                userid: currentUser?.id,
+                roles: currentUser?.roles,
+            });
+        });
+    };
+
     passport.deserializeUser((obj, done) => {
         done(null, false); // invalidates the existing login session.
     });
@@ -97,7 +106,7 @@ const server = async () => {
                         roles: matchingUser?.roles,
                     });
                 });
-                cb(null);
+                cb(null, matchingUser?.id);
             }
         )
     );
@@ -128,8 +137,9 @@ const server = async () => {
     app.get(
         "/auth/facebook/callback",
         passport.authenticate("facebook", {
-            failureRedirect: "/",
+            failureRedirect: "/fail",
             failureFlash: true,
+            failureMessage: true,
         }),
         (req, res) => {
             console.log(req.session);

@@ -36,6 +36,14 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     }));
     app.use(passport_1.default.initialize());
     app.use(passport_1.default.session());
+    const serializeUser = (currentUser) => {
+        passport_1.default.serializeUser((user, done) => {
+            done(null, {
+                userid: currentUser === null || currentUser === void 0 ? void 0 : currentUser.id,
+                roles: currentUser === null || currentUser === void 0 ? void 0 : currentUser.roles,
+            });
+        });
+    };
     passport_1.default.deserializeUser((obj, done) => {
         done(null, false);
     });
@@ -72,7 +80,7 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
                 roles: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.roles,
             });
         });
-        cb(null);
+        cb(null, matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id);
     })));
     const graphQLSchema = yield type_graphql_1.buildSchema({
         resolvers: [user_resolver_1.UserResolver],
@@ -93,8 +101,9 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
     }
     app.get("/auth/facebook", passport_1.default.authenticate("facebook"));
     app.get("/auth/facebook/callback", passport_1.default.authenticate("facebook", {
-        failureRedirect: "/",
+        failureRedirect: "/fail",
         failureFlash: true,
+        failureMessage: true,
     }), (req, res) => {
         console.log(req.session);
         res.redirect("/");
