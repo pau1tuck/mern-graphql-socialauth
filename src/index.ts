@@ -72,18 +72,10 @@ const server = async () => {
                     "https://187a787e98b5.ngrok.io/auth/facebook/callback",
             },
             async (accessToken, refreshToken, profile, cb) => {
-                const matchingUser = await User.findOne({
+                let matchingUser = await User.findOne({
                     where: { facebookId: profile.id },
                 });
-                if (matchingUser) {
-                    passport.serializeUser((user, done) => {
-                        done(null, {
-                            userid: matchingUser.id,
-                            roles: matchingUser.roles,
-                        });
-                    });
-                    cb(null, matchingUser);
-                } else {
+                if (!matchingUser) {
                     try {
                         User.insert({
                             facebookId: profile.id,
@@ -95,14 +87,17 @@ const server = async () => {
                     } catch (err) {
                         console.log(err);
                     }
-                    const user = await User.findOne({
+                    matchingUser = await User.findOne({
                         where: { facebookId: profile.id },
                     });
-                    app.use((req: Request) => {
-                        req.session.userId = user?.id;
-                    });
-                    cb(null);
                 }
+                passport.serializeUser((user, done) => {
+                    done(null, {
+                        userid: matchingUser?.id,
+                        roles: matchingUser?.roles,
+                    });
+                });
+                cb(null);
             }
         )
     );

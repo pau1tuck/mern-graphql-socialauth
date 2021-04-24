@@ -46,19 +46,10 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         callbackURL: "https://187a787e98b5.ngrok.io/auth/facebook/callback",
     }, (accessToken, refreshToken, profile, cb) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         var _a, _b, _c;
-        const matchingUser = yield user_entity_1.User.findOne({
+        let matchingUser = yield user_entity_1.User.findOne({
             where: { facebookId: profile.id },
         });
-        if (matchingUser) {
-            passport_1.default.serializeUser((user, done) => {
-                done(null, {
-                    userid: matchingUser.id,
-                    roles: matchingUser.roles,
-                });
-            });
-            cb(null, matchingUser);
-        }
-        else {
+        if (!matchingUser) {
             try {
                 user_entity_1.User.insert({
                     facebookId: profile.id,
@@ -71,14 +62,17 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
             catch (err) {
                 console.log(err);
             }
-            const user = yield user_entity_1.User.findOne({
+            matchingUser = yield user_entity_1.User.findOne({
                 where: { facebookId: profile.id },
             });
-            app.use((req) => {
-                req.session.userId = user === null || user === void 0 ? void 0 : user.id;
-            });
-            cb(null);
         }
+        passport_1.default.serializeUser((user, done) => {
+            done(null, {
+                userid: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id,
+                roles: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.roles,
+            });
+        });
+        cb(null);
     })));
     const graphQLSchema = yield type_graphql_1.buildSchema({
         resolvers: [user_resolver_1.UserResolver],

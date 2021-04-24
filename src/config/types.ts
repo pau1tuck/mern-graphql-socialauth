@@ -4,7 +4,7 @@ import { Field, InputType } from "type-graphql";
 export interface IContext {
     req: Request & { session: any };
     res: Response;
-    payload?: { userId: string; roles: string[] };
+    payload?: { passport: { user: { userId: string; roles: string[] } } };
 }
 
 @InputType()
