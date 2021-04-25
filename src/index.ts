@@ -23,9 +23,7 @@ const server = async () => {
     app.use(
         session({
             name: "sid",
-            genid: (req) => {
-                return v4();
-            },
+            genid: () => v4(),
             store: new RedisStore({
                 client: redisClient as any,
                 disableTouch: true,
@@ -70,8 +68,19 @@ const server = async () => {
     apolloServer.applyMiddleware({ app, cors: false });
 
     if (orm.isConnected) {
-        console.log(`Connected to MongoDB`);
+        console.log(`Connected to remote MongoDB`);
     }
+
+    redisClient.monitor((error, monitor) => {
+        if (!error) {
+            console.log(`Connected to Redis on port ${process.env.REDIS_PORT}`);
+        }
+        if (process.env.DEBUG) {
+            monitor.on("monitor", (time, args, source) => {
+                console.log(time, args, source);
+            });
+        }
+    });
 
     app.get("/auth/facebook", passport.authenticate("facebook"));
 

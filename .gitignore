@@ -2,12 +2,14 @@
 
 /.vscode
 
+*.env
+.env*
+
 /node_modules
 /public/node_modules
 npm-debug.log
 .DS_Store
-*.env
-.env*
+tsconfig.tsbuildinfo
 
 # dependencies
 /.pnp

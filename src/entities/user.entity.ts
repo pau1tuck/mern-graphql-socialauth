@@ -18,6 +18,9 @@ export class User extends BaseEntity {
     @Column({ nullable: true, default: null })
     facebookId?: string;
 
+    @Column({ nullable: true, default: null })
+    googleId?: string;
+
     @Field({ nullable: true })
     @Column({ nullable: true })
     givenName?: string;

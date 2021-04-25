@@ -7,6 +7,22 @@ export interface IContext {
     payload?: { passport: { user: { userId: string; roles: string[] } } };
 }
 
+export interface IUser {
+    id: number;
+    facebookId?: string;
+    googleId?: string;
+    givenName?: string;
+    familyName?: string;
+    city?: string;
+    country?: string;
+    email?: string;
+    password?: string;
+    verified: boolean;
+    roles?: string[];
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 @InputType()
 export class UserInput {
     @Field()
@@ -20,10 +36,4 @@ export class UserInput {
 
     @Field()
     email!: string;
-
-    @Field({ defaultValue: false })
-    verified!: boolean;
-
-    @Field(() => [String], { nullable: true })
-    roles?: string[];
 }

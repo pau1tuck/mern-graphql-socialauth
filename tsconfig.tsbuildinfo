@@ -4427,13 +4427,33 @@
         "affectsGlobalScope": false
       },
       "./src/config/passport.ts": {
-        "version": "d1793af0e87e8bc701fee519a331686c5f4a760e497270abdbfe968c9ddfcf84",
+        "version": "512fddccb82e7c3ea1f24bfbb87e4b1ce7105f6747886e0bedbc8d0c35e3e44c",
         "signature": "756238eb1aba9d9a518e2deebae8de03b12b2623748d0a84a8204160b34ab9ae",
         "affectsGlobalScope": false
       },
       "./src/config/database.ts": {
-        "version": "b8ef405b92dd6542d62595aa4267e13d4413534413e4bd80e0960fe9d1eff7b3",
-        "signature": "79cf2eb0dee6cd74f71cf633a9cdfab2d1f7246d719047ca42c969697d88b6be",
+        "version": "958c635bb6f48285f947c6bc3132922c4aa10afb312e8190ecd0d5d598a89061",
+        "signature": "f7fcdf77320fadb5e9d537c1bba662c264ff95286e9417a71274fbe03dd94aee",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/redis/index.d.ts": {
+        "version": "c6f0fb24005dfe5c741b2f0877bcd2e3a7602907f0233caf581a791d4da2c753",
+        "signature": "c6f0fb24005dfe5c741b2f0877bcd2e3a7602907f0233caf581a791d4da2c753",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/ioredis/index.d.ts": {
+        "version": "ffa3b11e984cdffd99e123e01fd5fd2047ae233e3ef101664d25bc38783ee8ef",
+        "signature": "ffa3b11e984cdffd99e123e01fd5fd2047ae233e3ef101664d25bc38783ee8ef",
+        "affectsGlobalScope": false
+      },
+      "./node_modules/@types/connect-redis/index.d.ts": {
+        "version": "e1c42fa4041757eda491a69101c47f7c9c4f0671ff182ccda0030b13ac062632",
+        "signature": "e1c42fa4041757eda491a69101c47f7c9c4f0671ff182ccda0030b13ac062632",
+        "affectsGlobalScope": false
+      },
+      "./src/config/redis.ts": {
+        "version": "7c68c64d9cd6a53676b290b303c18622b6d648d091ba0fd458de221bd9a259de",
+        "signature": "5d37a216d982b701474326b06d1cf61ddcf694d9c7addfcc108852f4d836ef26",
         "affectsGlobalScope": false
       },
       "./node_modules/argon2/argon2.d.ts": {
@@ -4442,23 +4462,18 @@
         "affectsGlobalScope": false
       },
       "./src/config/types.ts": {
-        "version": "5aad68a0bf8bf4fb986d62f8faf584c202e9b5138dee4484169d81d7916604f3",
-        "signature": "d042280c4c4d8f2ab50a0ac45491e2b0de8444bd48469aaa31efc718f91ce72c",
+        "version": "d80e1c444d262cb338b5e353e2fff1fbb9a1c4750213c265e4546a17454b72a0",
+        "signature": "f25e65cc606eb14d16fa7d71d2d16eeefe72fc7440bc13a320bb9b970d104675",
         "affectsGlobalScope": false
       },
       "./src/resolvers/user.resolver.ts": {
-        "version": "552a0ca5d18767a37f663acff9d70daf52ceb9a5dabefd7578a5204c060dd0a7",
-        "signature": "0bb44ab287abc4705d538ccb28a3c72fe52eb280594c8f8ee5d47b71232b7a22",
+        "version": "ecfdd99dcf329f5ba13bf7267d39c012e68f608e63aa9c5a302ef2dcdae11276",
+        "signature": "e75d0e8d7077e3bf79c5c3001a0d1d826d3d3d00ad267b9d11dc615dc7c8f459",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "d2b0f5ddf88a7616b023c22221744b75a45fd47d9e255e369ebf8c47cde3d7ff",
+        "version": "2bd45f4f62190aebecbe6e445d76e3c367b7be138873062dcfbd280edbb24ba3",
         "signature": "b80d267a27b198fdf0bf2e58970a636d649075a23dc07c4bf65bac1e715a6a56",
-        "affectsGlobalScope": false
-      },
-      "./src/config/redis.ts": {
-        "version": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "signature": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "affectsGlobalScope": false
       },
       "./node_modules/@types/minimatch/index.d.ts": {
@@ -4899,6 +4914,12 @@
         "./node_modules/@types/node/http.d.ts",
         "./node_modules/@types/node/index.d.ts"
       ],
+      "./node_modules/@types/connect-redis/index.d.ts": [
+        "./node_modules/@types/express-session/index.d.ts",
+        "./node_modules/@types/express/index.d.ts",
+        "./node_modules/@types/ioredis/index.d.ts",
+        "./node_modules/@types/redis/index.d.ts"
+      ],
       "./node_modules/@types/connect/index.d.ts": [
         "./node_modules/@types/node/http.d.ts",
         "./node_modules/@types/node/index.d.ts"
@@ -4938,6 +4959,12 @@
         "./node_modules/@types/minimatch/index.d.ts",
         "./node_modules/@types/node/events.d.ts",
         "./node_modules/@types/node/index.d.ts"
+      ],
+      "./node_modules/@types/ioredis/index.d.ts": [
+        "./node_modules/@types/node/events.d.ts",
+        "./node_modules/@types/node/index.d.ts",
+        "./node_modules/@types/node/stream.d.ts",
+        "./node_modules/@types/node/tls.d.ts"
       ],
       "./node_modules/@types/jsonwebtoken/index.d.ts": [
         "./node_modules/@types/node/index.d.ts"
@@ -5323,6 +5350,11 @@
       "./node_modules/@types/passport/index.d.ts": [
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/@types/node/http.d.ts"
+      ],
+      "./node_modules/@types/redis/index.d.ts": [
+        "./node_modules/@types/node/events.d.ts",
+        "./node_modules/@types/node/index.d.ts",
+        "./node_modules/@types/node/stream.d.ts"
       ],
       "./node_modules/@types/semver/classes/comparator.d.ts": [
         "./node_modules/@types/semver/classes/semver.d.ts",
@@ -8572,6 +8604,12 @@
         "./node_modules/tslib/tslib.d.ts",
         "./src/entities/user.entity.ts"
       ],
+      "./src/config/redis.ts": [
+        "./node_modules/@types/connect-redis/index.d.ts",
+        "./node_modules/@types/express-session/index.d.ts",
+        "./node_modules/@types/ioredis/index.d.ts",
+        "./node_modules/tslib/tslib.d.ts"
+      ],
       "./src/config/types.ts": [
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/tslib/tslib.d.ts",
@@ -8595,6 +8633,7 @@
         "./node_modules/typeorm/index.d.ts",
         "./src/config/database.ts",
         "./src/config/passport.ts",
+        "./src/config/redis.ts",
         "./src/resolvers/user.resolver.ts"
       ],
       "./src/resolvers/user.resolver.ts": [
@@ -8686,6 +8725,12 @@
         "./node_modules/@types/node/http.d.ts",
         "./node_modules/@types/node/index.d.ts"
       ],
+      "./node_modules/@types/connect-redis/index.d.ts": [
+        "./node_modules/@types/express-session/index.d.ts",
+        "./node_modules/@types/express/index.d.ts",
+        "./node_modules/@types/ioredis/index.d.ts",
+        "./node_modules/@types/redis/index.d.ts"
+      ],
       "./node_modules/@types/connect/index.d.ts": [
         "./node_modules/@types/node/http.d.ts",
         "./node_modules/@types/node/index.d.ts"
@@ -8725,6 +8770,12 @@
         "./node_modules/@types/minimatch/index.d.ts",
         "./node_modules/@types/node/events.d.ts",
         "./node_modules/@types/node/index.d.ts"
+      ],
+      "./node_modules/@types/ioredis/index.d.ts": [
+        "./node_modules/@types/node/events.d.ts",
+        "./node_modules/@types/node/index.d.ts",
+        "./node_modules/@types/node/stream.d.ts",
+        "./node_modules/@types/node/tls.d.ts"
       ],
       "./node_modules/@types/jsonwebtoken/index.d.ts": [
         "./node_modules/@types/node/index.d.ts"
@@ -9110,6 +9161,11 @@
       "./node_modules/@types/passport/index.d.ts": [
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/@types/node/http.d.ts"
+      ],
+      "./node_modules/@types/redis/index.d.ts": [
+        "./node_modules/@types/node/events.d.ts",
+        "./node_modules/@types/node/index.d.ts",
+        "./node_modules/@types/node/stream.d.ts"
       ],
       "./node_modules/@types/semver/classes/comparator.d.ts": [
         "./node_modules/@types/semver/classes/semver.d.ts",
@@ -12350,6 +12406,10 @@
       "./src/config/database.ts": [
         "./node_modules/typeorm/index.d.ts"
       ],
+      "./src/config/redis.ts": [
+        "./node_modules/@types/connect-redis/index.d.ts",
+        "./node_modules/@types/ioredis/index.d.ts"
+      ],
       "./src/config/types.ts": [
         "./node_modules/@types/express/index.d.ts"
       ],
@@ -12389,6 +12449,7 @@
       "./node_modules/@apollographql/graphql-upload-8-fork/index.d.ts",
       "./node_modules/@types/accepts/index.d.ts",
       "./node_modules/@types/body-parser/index.d.ts",
+      "./node_modules/@types/connect-redis/index.d.ts",
       "./node_modules/@types/connect/index.d.ts",
       "./node_modules/@types/content-disposition/index.d.ts",
       "./node_modules/@types/cookies/index.d.ts",
@@ -12400,6 +12461,7 @@
       "./node_modules/@types/glob/index.d.ts",
       "./node_modules/@types/http-assert/index.d.ts",
       "./node_modules/@types/http-errors/index.d.ts",
+      "./node_modules/@types/ioredis/index.d.ts",
       "./node_modules/@types/json-schema/index.d.ts",
       "./node_modules/@types/json5/index.d.ts",
       "./node_modules/@types/jsonwebtoken/index.d.ts",
@@ -12475,6 +12537,7 @@
       "./node_modules/@types/passport/index.d.ts",
       "./node_modules/@types/qs/index.d.ts",
       "./node_modules/@types/range-parser/index.d.ts",
+      "./node_modules/@types/redis/index.d.ts",
       "./node_modules/@types/semver/classes/comparator.d.ts",
       "./node_modules/@types/semver/classes/range.d.ts",
       "./node_modules/@types/semver/classes/semver.d.ts",

@@ -58,6 +58,25 @@ let UserResolver = class UserResolver {
             return matchingUser;
         });
     }
+    createSuperUser(input, password) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const matchingUser = yield user_entity_1.User.findOne({
+                where: { email: input.email },
+            });
+            if (matchingUser) {
+                throw new Error("Email address already registered");
+            }
+            const encryptedPassword = yield argon2_1.default.hash(password);
+            try {
+                yield user_entity_1.User.insert(Object.assign(Object.assign({}, input), { password: encryptedPassword, verified: true, roles: ["ADMIN", "MODERATOR"] }));
+            }
+            catch (err) {
+                console.log(err);
+                return false;
+            }
+            return true;
+        });
+    }
 };
 tslib_1.__decorate([
     type_graphql_1.Query(() => [user_entity_1.User], { nullable: true }),
@@ -89,6 +108,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [String, String, Object]),
     tslib_1.__metadata("design:returntype", Promise)
 ], UserResolver.prototype, "login", null);
+tslib_1.__decorate([
+    type_graphql_1.Mutation(() => Boolean),
+    tslib_1.__param(0, type_graphql_1.Arg("input")),
+    tslib_1.__param(1, type_graphql_1.Arg("password")),
+    tslib_1.__metadata("design:type", Function),
+    tslib_1.__metadata("design:paramtypes", [types_1.UserInput, String]),
+    tslib_1.__metadata("design:returntype", Promise)
+], UserResolver.prototype, "createSuperUser", null);
 UserResolver = tslib_1.__decorate([
     type_graphql_1.Resolver(user_entity_1.User)
 ], UserResolver);

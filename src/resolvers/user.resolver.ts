@@ -75,4 +75,31 @@ export class UserResolver {
         console.log(ctx.req.session);
         return matchingUser;
     }
+
+    @Mutation(() => Boolean)
+    async createSuperUser(
+        @Arg("input") input: UserInput,
+        @Arg("password") password: string
+    ) {
+        const matchingUser = await User.findOne({
+            where: { email: input.email },
+        });
+        if (matchingUser) {
+            throw new Error("Email address already registered");
+        }
+
+        const encryptedPassword = await argon2.hash(password);
+        try {
+            await User.insert({
+                ...input,
+                password: encryptedPassword,
+                verified: true,
+                roles: ["ADMIN", "MODERATOR"],
+            });
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+        return true;
+    }
 }

@@ -10,7 +10,7 @@ const passportStrategies = () => {
     passport_1.default.use(new FacebookStrategy({
         clientID: String(process.env.FACEBOOK_APP_ID),
         clientSecret: String(process.env.FACEBOOK_APP_SECRET),
-        callbackURL: "https://e4577d01c7a5.ngrok.io/auth/facebook/callback",
+        callbackURL: "https://01fbfe75c1f6.ngrok.io/auth/facebook/callback",
     }, (accessToken, refreshToken, profile, cb) => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         var _a, _b;
         let matchingUser = yield user_entity_1.User.findOne({

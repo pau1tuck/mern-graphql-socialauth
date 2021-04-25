@@ -1,8 +1,20 @@
 import passport from "passport";
 import passportFacebook from "passport-facebook";
+import passportGoogle from "passport-google-oauth20";
 import { User } from "../entities/user.entity";
+import { IUser } from "./types";
 
 const FacebookStrategy = passportFacebook.Strategy;
+const GoogleStrategy = passportGoogle.Strategy;
+
+const serializeUser = (matchingUser: IUser | undefined) => {
+    passport.serializeUser((_, done) => {
+        done(null, {
+            userId: matchingUser?.id,
+            roles: matchingUser?.roles,
+        });
+    });
+};
 
 export const passportStrategies = () => {
     passport.use(
@@ -11,7 +23,7 @@ export const passportStrategies = () => {
                 clientID: String(process.env.FACEBOOK_APP_ID),
                 clientSecret: String(process.env.FACEBOOK_APP_SECRET),
                 callbackURL:
-                    "https://e4577d01c7a5.ngrok.io/auth/facebook/callback",
+                    "https://01fbfe75c1f6.ngrok.io/auth/facebook/callback",
             },
             async (accessToken, refreshToken, profile, cb) => {
                 let matchingUser = await User.findOne({
@@ -21,7 +33,8 @@ export const passportStrategies = () => {
                     try {
                         User.insert({
                             facebookId: profile.id,
-                            givenName: profile.displayName,
+                            givenName:
+                                profile.name?.givenName || profile.displayName,
                             familyName: profile.name?.familyName,
                             email: profile.emails?.[0].value,
                             verified: true,
@@ -33,12 +46,39 @@ export const passportStrategies = () => {
                         where: { facebookId: profile.id },
                     });
                 }
-                passport.serializeUser((user, done) => {
-                    done(null, {
-                        userId: matchingUser?.id,
-                        roles: matchingUser?.roles,
-                    });
+                serializeUser(matchingUser);
+                cb(null, matchingUser?.id);
+            }
+        )
+    );
+    passport.use(
+        new GoogleStrategy(
+            {
+                clientID: String(process.env.GOOGLE_CLIENT_ID),
+                clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
+                callbackURL: "http://www.example.com/auth/google/callback",
+            },
+            async (accessToken, refreshToken, profile, cb) => {
+                let matchingUser = await User.findOne({
+                    where: { googleId: profile.id },
                 });
+                if (!matchingUser) {
+                    try {
+                        User.insert({
+                            googleId: profile.id,
+                            givenName: profile.name?.givenName,
+                            familyName: profile.name?.familyName,
+                            email: profile.emails?.[0].value,
+                            verified: true,
+                        });
+                    } catch (err) {
+                        cb(err, {});
+                    }
+                    matchingUser = await User.findOne({
+                        where: { googleId: profile.id },
+                    });
+                }
+                serializeUser(matchingUser);
                 cb(null, matchingUser?.id);
             }
         )
