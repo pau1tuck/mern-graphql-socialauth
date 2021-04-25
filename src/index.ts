@@ -97,6 +97,21 @@ const server = async () => {
         }
     );
 
+    app.get("/auth/google", passport.authenticate("google"));
+
+    app.get(
+        "/auth/google/callback",
+        passport.authenticate("google", {
+            failureRedirect: "/fail",
+            failureFlash: true,
+            failureMessage: true,
+        }),
+        (req, res) => {
+            console.log(req.session);
+            res.redirect("/");
+        }
+    );
+
     app.use("/static", express.static("public/dist"));
 
     app.get("/", (req: Request, res: Response) => {
