@@ -12,10 +12,10 @@ export class UserResolver {
 
     @Query(() => User, { nullable: true })
     currentUser(@Ctx() { req }: IContext) {
-        if (!req.session.userId) {
+        if (!req.session.passport.user.userId) {
             return null;
         }
-        return User.findOne(req.session.userId);
+        return User.findOne(req.session.passport.user.userId);
     }
 
     @Mutation(() => Boolean)
