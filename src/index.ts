@@ -13,6 +13,8 @@ import { mongodb } from "./config/database";
 import { RedisStore, redisClient } from "./config/redis";
 import { UserResolver } from "./resolvers/user.resolver";
 
+const { NODE_ENV, DEBUG, PORT, REDIS_PORT, SESSION_SECRET } = process.env;
+
 const server = async () => {
     const orm: Connection = await createConnection(mongodb);
 
@@ -32,10 +34,10 @@ const server = async () => {
             cookie: {
                 maxAge: 1000 * 60 * 60 * 24 * 30,
                 httpOnly: false,
-                sameSite: process.env.NODE_ENV === "production" ? true : "lax",
-                secure: process.env.NODE_ENV === "production",
+                sameSite: NODE_ENV === "production" ? true : "lax",
+                secure: NODE_ENV === "production",
             },
-            secret: process.env.SESSION_SECRET || "secret",
+            secret: SESSION_SECRET || "secret",
             resave: false,
             saveUninitialized: false,
         })
@@ -44,8 +46,8 @@ const server = async () => {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.deserializeUser((obj, done) => {
-        done(null, false); // invalidates the existing login session.
+    passport.deserializeUser((_, done) => {
+        done(null, false);
     });
 
     passportStrategies();
@@ -73,7 +75,7 @@ const server = async () => {
 
     redisClient.monitor((error, monitor) => {
         if (!error) {
-            console.log(`Connected to Redis on port ${process.env.REDIS_PORT}`);
+            console.log(`Connected to Redis on port ${REDIS_PORT}`);
         }
         if (process.env.DEBUG) {
             monitor.on("monitor", (time, args, source) => {
@@ -91,7 +93,7 @@ const server = async () => {
             failureFlash: true,
             failureMessage: true,
         }),
-        (req, res) => {
+        (req: Request, res: Response) => {
             console.log(req.session);
             res.redirect("/");
         }
@@ -106,8 +108,10 @@ const server = async () => {
             failureFlash: true,
             failureMessage: true,
         }),
-        (req, res) => {
-            console.log(req.session);
+        (req: Request, res: Response) => {
+            if (DEBUG) {
+                console.log(req.session);
+            }
             res.redirect("/");
         }
     );
@@ -118,8 +122,8 @@ const server = async () => {
         res.sendFile(path.resolve(__dirname, "../public/index.html"));
     });
 
-    app.listen(process.env.PORT, () => {
-        console.log(`🚀 Node server running on port ${process.env.PORT}`);
+    app.listen(PORT, () => {
+        console.log(`🚀 Node server running on port ${PORT}`);
     });
 };
 

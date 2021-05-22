@@ -3,7 +3,7 @@
 /.vscode
 
 *.env
-.env*
+.env
 
 /node_modules
 /public/node_modules

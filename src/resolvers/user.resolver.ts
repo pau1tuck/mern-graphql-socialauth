@@ -51,7 +51,7 @@ export class UserResolver {
     ): Promise<User | null> {
         const matchingUser = await User.findOne({ where: { email } });
 
-        if (!matchingUser || !matchingUser.password) {
+        if (!matchingUser) {
             throw new Error("Email address not registered");
         } else {
             const checkPassword = await argon2.verify(

@@ -4,6 +4,14 @@ import passportGoogle from "passport-google-oauth20";
 import { User } from "../entities/user.entity";
 import { IUser } from "./types";
 
+const {
+    HOST,
+    FACEBOOK_APP_ID,
+    FACEBOOK_APP_SECRET,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+} = process.env;
+
 const FacebookStrategy = passportFacebook.Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
 
@@ -20,10 +28,9 @@ export const passportStrategies = () => {
     passport.use(
         new FacebookStrategy(
             {
-                clientID: String(process.env.FACEBOOK_APP_ID),
-                clientSecret: String(process.env.FACEBOOK_APP_SECRET),
-                callbackURL:
-                    "https://01fbfe75c1f6.ngrok.io/auth/facebook/callback",
+                clientID: FACEBOOK_APP_ID,
+                clientSecret: FACEBOOK_APP_SECRET,
+                callbackURL: `${HOST}/auth/facebook/callback`,
             },
             async (accessToken, refreshToken, profile, cb) => {
                 let matchingUser = await User.findOne({
@@ -54,9 +61,9 @@ export const passportStrategies = () => {
     passport.use(
         new GoogleStrategy(
             {
-                clientID: String(process.env.GOOGLE_CLIENT_ID),
-                clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
-                callbackURL: "http://www.example.com/auth/google/callback",
+                clientID: GOOGLE_CLIENT_ID,
+                clientSecret: GOOGLE_CLIENT_SECRET,
+                callbackURL: `${HOST}//auth/google/callback`,
             },
             async (accessToken, refreshToken, profile, cb) => {
                 let matchingUser = await User.findOne({
