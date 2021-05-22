@@ -16,6 +16,10 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", String)
 ], User.prototype, "facebookId", void 0);
 tslib_1.__decorate([
+    typeorm_1.Column({ nullable: true, default: null }),
+    tslib_1.__metadata("design:type", String)
+], User.prototype, "googleId", void 0);
+tslib_1.__decorate([
     type_graphql_1.Field({ nullable: true }),
     typeorm_1.Column({ nullable: true }),
     tslib_1.__metadata("design:type", String)

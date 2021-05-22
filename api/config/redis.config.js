@@ -14,4 +14,4 @@ exports.redisClient = new ioredis_1.default({
     db: parseInt(process.env.REDIS_DB, 10) || 0,
     enableReadyCheck: Boolean(process.env.DEBUG) || true,
 });
-//# sourceMappingURL=redis.js.map
+//# sourceMappingURL=redis.config.js.map

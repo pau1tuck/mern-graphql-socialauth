@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passportStrategies = void 0;
+exports.passportStrategies = exports.serializeUser = void 0;
 const tslib_1 = require("tslib");
 const passport_1 = tslib_1.__importDefault(require("passport"));
 const passport_facebook_1 = tslib_1.__importDefault(require("passport-facebook"));
@@ -12,11 +12,12 @@ const GoogleStrategy = passport_google_oauth20_1.default.Strategy;
 const serializeUser = (matchingUser) => {
     passport_1.default.serializeUser((_, done) => {
         done(null, {
-            userId: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id,
+            userId: matchingUser.id,
             roles: matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.roles,
         });
     });
 };
+exports.serializeUser = serializeUser;
 const passportStrategies = () => {
     passport_1.default.use(new FacebookStrategy({
         clientID: FACEBOOK_APP_ID,
@@ -44,7 +45,9 @@ const passportStrategies = () => {
                 where: { facebookId: profile.id },
             });
         }
-        serializeUser(matchingUser);
+        if (matchingUser) {
+            exports.serializeUser(matchingUser);
+        }
         cb(null, matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id);
     })));
     passport_1.default.use(new GoogleStrategy({
@@ -73,9 +76,11 @@ const passportStrategies = () => {
                 where: { googleId: profile.id },
             });
         }
-        serializeUser(matchingUser);
+        if (matchingUser) {
+            exports.serializeUser(matchingUser);
+        }
         cb(null, matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id);
     })));
 };
 exports.passportStrategies = passportStrategies;
-//# sourceMappingURL=passport.js.map
+//# sourceMappingURL=passport.config.js.map

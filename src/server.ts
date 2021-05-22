@@ -8,16 +8,17 @@ import passport from "passport";
 import { createConnection, Connection } from "typeorm";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { passportStrategies } from "./config/passport";
-import { mongodb } from "./config/database";
-import { RedisStore, redisClient } from "./config/redis";
+import { passportStrategies } from "./config/passport.config";
+import database from "./config/database.config";
+import { RedisStore, redisClient } from "./config/redis.config";
+import authChecker from "./utils/check-auth";
 import { UserResolver } from "./resolvers/user.resolver";
 import routes from "./routes";
 
 const { NODE_ENV, DEBUG, PORT, REDIS_PORT, SESSION_SECRET } = process.env;
 
 const server = async () => {
-    const orm: Connection = await createConnection(mongodb);
+    const orm: Connection = await createConnection(database);
 
     const app: Express = express();
 
@@ -56,6 +57,7 @@ const server = async () => {
     const graphQLSchema = await buildSchema({
         resolvers: [UserResolver],
         validate: false,
+        authChecker,
     });
 
     const apolloServer = new ApolloServer({
@@ -64,21 +66,21 @@ const server = async () => {
             req,
             res,
         }),
-        introspection: !!process.env.DEBUG,
-        playground: !!process.env.DEBUG,
+        introspection: Boolean(DEBUG),
+        playground: Boolean(DEBUG),
     });
 
     apolloServer.applyMiddleware({ app, cors: false });
 
     if (orm.isConnected) {
-        console.log(`Connected to remote MongoDB`);
+        console.log(`Connected to remote database`);
     }
 
     redisClient.monitor((error, monitor) => {
         if (!error) {
             console.log(`Connected to Redis on port ${REDIS_PORT}`);
         }
-        if (process.env.DEBUG) {
+        if (DEBUG) {
             monitor.on("monitor", (time, args, source) => {
                 console.log(time, args, source);
             });
@@ -86,6 +88,8 @@ const server = async () => {
     });
 
     app.use("/", routes);
+
+    console.log(passport);
 
     app.listen(PORT, () => {
         console.log(`🚀 Node server running on port ${PORT}`);

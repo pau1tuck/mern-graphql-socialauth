@@ -1,7 +1,9 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { User } from "../entities/user.entity";
-import { IContext, UserInput } from "../config/types";
+import { IContext } from "../types/context";
+import { RegisterUserInput } from "../types/user";
+import { serializeUser } from "../config/passport.config";
 
 @Resolver(User)
 export class UserResolver {
@@ -20,7 +22,7 @@ export class UserResolver {
 
     @Mutation(() => Boolean)
     async register(
-        @Arg("input") input: UserInput,
+        @Arg("input") input: RegisterUserInput,
         @Arg("password") password: string
     ) {
         const matchingUser = await User.findOne({
@@ -55,6 +57,10 @@ export class UserResolver {
             throw new Error("Email address not registered");
         }
 
+        if (!matchingUser.password) {
+            throw new Error("Password not set");
+        }
+
         if (matchingUser.password) {
             const checkPassword = await argon2.verify(
                 matchingUser.password,
@@ -69,9 +75,11 @@ export class UserResolver {
             throw new Error("Email address not verified");
         }
 
-        ctx.req.session.passport = {
+        /* ctx.req.session.passport = {
             user: { userId: matchingUser.id, roles: matchingUser.roles },
-        };
+        }; */
+
+        serializeUser(matchingUser);
 
         console.log(`${matchingUser.email} logged in`);
         console.log(ctx.req.session);
@@ -80,7 +88,7 @@ export class UserResolver {
 
     @Mutation(() => Boolean)
     async createSuperUser(
-        @Arg("input") input: UserInput,
+        @Arg("input") input: RegisterUserInput,
         @Arg("password") password: string
     ) {
         const matchingUser = await User.findOne({

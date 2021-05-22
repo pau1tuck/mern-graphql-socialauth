@@ -1,11 +1,4 @@
-import { Request, Response } from "express";
 import { Field, InputType } from "type-graphql";
-
-export interface IContext {
-    req: Request & { session: any };
-    res: Response;
-    payload?: { passport: { user: { userId: string; roles: string[] } } };
-}
 
 export interface IUser {
     id: number;
@@ -24,7 +17,7 @@ export interface IUser {
 }
 
 @InputType()
-export class UserInput {
+export class RegisterUserInput {
     @Field()
     givenName!: string;
 

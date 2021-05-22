@@ -2,7 +2,7 @@ import passport from "passport";
 import passportFacebook from "passport-facebook";
 import passportGoogle from "passport-google-oauth20";
 import { User } from "../entities/user.entity";
-import { IUser } from "./types";
+import { IUser } from "../types/user";
 
 const {
     HOST,
@@ -15,10 +15,10 @@ const {
 const FacebookStrategy = passportFacebook.Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
 
-const serializeUser = (matchingUser: IUser | undefined) => {
+export const serializeUser = (matchingUser: IUser) => {
     passport.serializeUser((_, done) => {
         done(null, {
-            userId: matchingUser?.id,
+            userId: matchingUser.id,
             roles: matchingUser?.roles,
         });
     });
@@ -53,7 +53,9 @@ export const passportStrategies = () => {
                         where: { facebookId: profile.id },
                     });
                 }
-                serializeUser(matchingUser);
+                if (matchingUser) {
+                    serializeUser(matchingUser);
+                }
                 cb(null, matchingUser?.id);
             }
         )
@@ -85,7 +87,9 @@ export const passportStrategies = () => {
                         where: { googleId: profile.id },
                     });
                 }
-                serializeUser(matchingUser);
+                if (matchingUser) {
+                    serializeUser(matchingUser);
+                }
                 cb(null, matchingUser?.id);
             }
         )

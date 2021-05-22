@@ -8,6 +8,7 @@ declare namespace NodeJS {
         REDIS_HOST: string;
         REDIS_PORT: string;
         REDIS_FAMILY: string;
+        REDIS_DB: string;
         REDIS_PASS: string;
         SESSION_SECRET: string;
         FACEBOOK_APP_ID: string;

@@ -5,16 +5,17 @@ const tslib_1 = require("tslib");
 const type_graphql_1 = require("type-graphql");
 const argon2_1 = tslib_1.__importDefault(require("argon2"));
 const user_entity_1 = require("../entities/user.entity");
-const types_1 = require("../config/types");
+const user_1 = require("../types/user");
+const passport_config_1 = require("../config/passport.config");
 let UserResolver = class UserResolver {
     users() {
         return user_entity_1.User.find();
     }
     currentUser({ req }) {
-        if (!req.session.userId) {
+        if (!req.session.passport.user.userId) {
             return null;
         }
-        return user_entity_1.User.findOne(req.session.userId);
+        return user_entity_1.User.findOne(req.session.passport.user.userId);
     }
     register(input, password) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
@@ -38,10 +39,13 @@ let UserResolver = class UserResolver {
     login(email, password, ctx) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const matchingUser = yield user_entity_1.User.findOne({ where: { email } });
-            if (!matchingUser || !matchingUser.password) {
+            if (!matchingUser) {
                 throw new Error("Email address not registered");
             }
-            else {
+            if (!matchingUser.password) {
+                throw new Error("Password not set");
+            }
+            if (matchingUser.password) {
                 const checkPassword = yield argon2_1.default.verify(matchingUser.password, password);
                 if (!checkPassword) {
                     throw new Error("Incorrect password");
@@ -50,9 +54,7 @@ let UserResolver = class UserResolver {
             if (!matchingUser.verified) {
                 throw new Error("Email address not verified");
             }
-            ctx.req.session.passport = {
-                user: { userId: matchingUser.id, roles: matchingUser.roles },
-            };
+            passport_config_1.serializeUser(matchingUser);
             console.log(`${matchingUser.email} logged in`);
             console.log(ctx.req.session);
             return matchingUser;
@@ -96,7 +98,7 @@ tslib_1.__decorate([
     tslib_1.__param(0, type_graphql_1.Arg("input")),
     tslib_1.__param(1, type_graphql_1.Arg("password")),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [types_1.UserInput, String]),
+    tslib_1.__metadata("design:paramtypes", [user_1.RegisterUserInput, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], UserResolver.prototype, "register", null);
 tslib_1.__decorate([
@@ -113,7 +115,7 @@ tslib_1.__decorate([
     tslib_1.__param(0, type_graphql_1.Arg("input")),
     tslib_1.__param(1, type_graphql_1.Arg("password")),
     tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [types_1.UserInput, String]),
+    tslib_1.__metadata("design:paramtypes", [user_1.RegisterUserInput, String]),
     tslib_1.__metadata("design:returntype", Promise)
 ], UserResolver.prototype, "createSuperUser", null);
 UserResolver = tslib_1.__decorate([
