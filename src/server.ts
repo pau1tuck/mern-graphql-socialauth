@@ -12,6 +12,7 @@ import { passportStrategies } from "./config/passport";
 import { mongodb } from "./config/database";
 import { RedisStore, redisClient } from "./config/redis";
 import { UserResolver } from "./resolvers/user.resolver";
+import routes from "./routes";
 
 const { NODE_ENV, DEBUG, PORT, REDIS_PORT, SESSION_SECRET } = process.env;
 
@@ -84,43 +85,7 @@ const server = async () => {
         }
     });
 
-    app.get("/auth/facebook", passport.authenticate("facebook"));
-
-    app.get(
-        "/auth/facebook/callback",
-        passport.authenticate("facebook", {
-            failureRedirect: "/fail",
-            failureFlash: true,
-            failureMessage: true,
-        }),
-        (req: Request, res: Response) => {
-            console.log(req.session);
-            res.redirect("/");
-        }
-    );
-
-    app.get("/auth/google", passport.authenticate("google"));
-
-    app.get(
-        "/auth/google/callback",
-        passport.authenticate("google", {
-            failureRedirect: "/fail",
-            failureFlash: true,
-            failureMessage: true,
-        }),
-        (req: Request, res: Response) => {
-            if (DEBUG) {
-                console.log(req.session);
-            }
-            res.redirect("/");
-        }
-    );
-
-    app.use("/static", express.static("public/dist"));
-
-    app.get("/", (req: Request, res: Response) => {
-        res.sendFile(path.resolve(__dirname, "../public/index.html"));
-    });
+    app.use("/", routes);
 
     app.listen(PORT, () => {
         console.log(`🚀 Node server running on port ${PORT}`);

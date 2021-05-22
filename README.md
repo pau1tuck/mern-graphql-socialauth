@@ -6,7 +6,7 @@ Cookie-based sessions are handled by express-session, Redis, and Passport.js.
 
 It integrates Passport.js authentication strategies for Google, Facebook and Twitter with TypeGraphQL.
 
-To set up a new project, clone the repository with git clone https://github.com/pau1tuck/mern-graphql-socialauth.git
+To set up a new project, clone the repository with `git clone https://github.com/pau1tuck/mern-graphql-socialauth.git`
 
-Install server packages by running yarn install in the root directory.
-Install React client packages (if needed) by running yarn install in the public directory.
+Install server packages by running `yarn install` in the root directory.
+Install React client packages (if needed) by running `yarn install` in the public directory.

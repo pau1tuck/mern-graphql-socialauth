@@ -53,7 +53,9 @@ export class UserResolver {
 
         if (!matchingUser) {
             throw new Error("Email address not registered");
-        } else {
+        }
+
+        if (matchingUser.password) {
             const checkPassword = await argon2.verify(
                 matchingUser.password,
                 password
