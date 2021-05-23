@@ -41,12 +41,14 @@ const passportStrategies = () => {
             catch (err) {
                 cb(err, null);
             }
+            console.log(`User "${profile.displayName}" successfully registered`);
             matchingUser = yield user_entity_1.User.findOne({
                 where: { facebookId: profile.id },
             });
         }
         if (matchingUser) {
             exports.serializeUser(matchingUser);
+            console.log(`User "${profile.displayName}" logged in`);
         }
         cb(null, matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id);
     })));
@@ -72,12 +74,14 @@ const passportStrategies = () => {
             catch (err) {
                 cb(err, {});
             }
+            console.log(`User "${profile.displayName}" successfully registered`);
             matchingUser = yield user_entity_1.User.findOne({
                 where: { googleId: profile.id },
             });
         }
         if (matchingUser) {
             exports.serializeUser(matchingUser);
+            console.log(`User "${profile.displayName}" logged in`);
         }
         cb(null, matchingUser === null || matchingUser === void 0 ? void 0 : matchingUser.id);
     })));

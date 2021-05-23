@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { User } from "../entities/user.entity";
 import { IContext } from "../types/context";
@@ -7,6 +7,7 @@ import { serializeUser } from "../config/passport.config";
 
 @Resolver(User)
 export class UserResolver {
+    @Authorized("ADMIN")
     @Query(() => [User], { nullable: true })
     users(): Promise<User[]> {
         return User.find();
@@ -86,6 +87,7 @@ export class UserResolver {
         return matchingUser;
     }
 
+    @Authorized("ADMIN")
     @Mutation(() => Boolean)
     async createSuperUser(
         @Arg("input") input: RegisterUserInput,

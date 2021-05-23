@@ -9,7 +9,7 @@ router.use("/auth", auth);
 router.use("/static", express.static(path.resolve(__dirname, "public/dist")));
 
 router.get("/", (req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, "../public/index.html"));
+    res.sendFile(path.resolve(__dirname, "../../public/index.html"));
 });
 
 export default router;

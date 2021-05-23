@@ -89,8 +89,6 @@ const server = async () => {
 
     app.use("/", routes);
 
-    console.log(passport);
-
     app.listen(PORT, () => {
         console.log(`🚀 Node server running on port ${PORT}`);
     });

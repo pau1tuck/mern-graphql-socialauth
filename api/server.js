@@ -74,7 +74,6 @@ const server = () => tslib_1.__awaiter(void 0, void 0, void 0, function* () {
         }
     });
     app.use("/", routes_1.default);
-    console.log(passport_1.default);
     app.listen(PORT, () => {
         console.log(`🚀 Node server running on port ${PORT}`);
     });

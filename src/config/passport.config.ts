@@ -49,12 +49,14 @@ export const passportStrategies = () => {
                     } catch (err) {
                         cb(err, null);
                     }
+                    console.log(`User "${profile.displayName}" registered`);
                     matchingUser = await User.findOne({
                         where: { facebookId: profile.id },
                     });
                 }
                 if (matchingUser) {
                     serializeUser(matchingUser);
+                    console.log(`User "${profile.displayName}" logged in`);
                 }
                 cb(null, matchingUser?.id);
             }
@@ -83,12 +85,14 @@ export const passportStrategies = () => {
                     } catch (err) {
                         cb(err, {});
                     }
+                    console.log(`User "${profile.displayName}" registered`);
                     matchingUser = await User.findOne({
                         where: { googleId: profile.id },
                     });
                 }
                 if (matchingUser) {
                     serializeUser(matchingUser);
+                    console.log(`User "${profile.displayName}" logged in`);
                 }
                 cb(null, matchingUser?.id);
             }
