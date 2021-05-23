@@ -4,7 +4,7 @@ This starter template uses TypeORM to manage a remote MongoDB cluster. However, 
 
 Cookie-based sessions are handled by express-session, Redis, and Passport.js.
 
-It integrates Passport.js authentication strategies for Google, Facebook and Twitter with TypeGraphQL.
+It integrates Passport.js authentication strategies for Google and Facebook with TypeGraphQL.
 
 To set up a new project, clone the repository with `git clone https://github.com/pau1tuck/mern-graphql-socialauth.git`
 
