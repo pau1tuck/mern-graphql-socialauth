@@ -1,3 +1,4 @@
+import { Errback } from "express";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { User } from "../entities/user.entity";
@@ -85,6 +86,43 @@ export class UserResolver {
         console.log(`${matchingUser.email} logged in`);
         console.log(ctx.req.session);
         return matchingUser;
+    }
+
+    @Mutation(() => Boolean)
+    async logout(@Ctx() { req, res }: IContext) {
+        return new Promise((resolve) =>
+            req.session.destroy((err: Errback) => {
+                res.clearCookie("sid");
+                if (err) {
+                    console.log(err);
+                    resolve(false);
+                    return;
+                }
+
+                resolve(true);
+            })
+        );
+    }
+
+    @Mutation(() => Boolean)
+    async deleteUser(@Ctx() { req, res }: IContext): Promise<boolean> {
+        try {
+            await User.delete({ id: req.session.passport.user.userId });
+        } catch (err) {
+            console.log(err);
+            throw new Error(err);
+        }
+        return new Promise((resolve) =>
+            req.session.destroy((err: Errback) => {
+                res.clearCookie("sid");
+                if (err) {
+                    console.log(err);
+                    resolve(false);
+                    return;
+                }
+                resolve(true);
+            })
+        );
     }
 
     @Authorized("ADMIN")
