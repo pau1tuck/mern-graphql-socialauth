@@ -3,7 +3,7 @@ import { User } from "../entities/user.entity";
 
 const { NODE_ENV, DEBUG, DB_URL } = process.env;
 
-const database = {
+const databaseConfig = {
     type: "mongodb",
     url: DB_URL,
     synchronize: NODE_ENV !== "production",
@@ -14,4 +14,4 @@ const database = {
     entities: [User],
 } as Parameters<typeof createConnection>[0];
 
-export default database;
+export default databaseConfig;

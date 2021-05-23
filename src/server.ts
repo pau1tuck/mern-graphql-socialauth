@@ -8,49 +8,28 @@ import passport from "passport";
 import { createConnection, Connection } from "typeorm";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
+import sessionConfig from "./config/session.config";
 import { passportStrategies } from "./config/passport.config";
-import database from "./config/database.config";
+import databaseConfig from "./config/database.config";
 import { RedisStore, redisClient } from "./config/redis.config";
 import authChecker from "./utils/check-auth";
 import { UserResolver } from "./resolvers/user.resolver";
 import routes from "./routes";
 
-const { NODE_ENV, DEBUG, PORT, REDIS_PORT, SESSION_SECRET } = process.env;
+const { NODE_ENV, DEBUG, HOST, PORT, REDIS_HOST, REDIS_PORT, SESSION_SECRET } =
+    process.env;
 
 const server = async () => {
-    const orm: Connection = await createConnection(database);
+    const orm: Connection = await createConnection(databaseConfig);
 
     const app: Express = express();
 
     app.set("trust proxy", 1);
 
-    app.use(
-        session({
-            name: "sid",
-            genid: () => v4(),
-            store: new RedisStore({
-                client: redisClient as any,
-                disableTouch: true,
-                disableTTL: true,
-            }),
-            cookie: {
-                maxAge: 1000 * 60 * 60 * 24 * 30,
-                httpOnly: false,
-                sameSite: NODE_ENV === "production" ? true : "lax",
-                secure: NODE_ENV === "production",
-            },
-            secret: SESSION_SECRET || "secret",
-            resave: false,
-            saveUninitialized: false,
-        })
-    );
+    app.use(session(sessionConfig));
 
     app.use(passport.initialize());
     app.use(passport.session());
-
-    passport.deserializeUser((_, done) => {
-        done(null, false);
-    });
 
     passportStrategies();
 
@@ -72,13 +51,15 @@ const server = async () => {
 
     apolloServer.applyMiddleware({ app, cors: false });
 
+    app.use("/", routes);
+
     if (orm.isConnected) {
-        console.log(`Connected to remote database`);
+        console.log("Connected to remote database");
     }
 
     redisClient.monitor((error, monitor) => {
         if (!error) {
-            console.log(`Connected to Redis on port ${REDIS_PORT}`);
+            console.log(`Connected to Redis on ${REDIS_HOST}:${REDIS_PORT}`);
         }
         if (DEBUG) {
             monitor.on("monitor", (time, args, source) => {
@@ -87,10 +68,8 @@ const server = async () => {
         }
     });
 
-    app.use("/", routes);
-
     app.listen(PORT, () => {
-        console.log(`🚀 Node server running on port ${PORT}`);
+        console.log(`🚀 Node server running on ${HOST}:${PORT}`);
     });
 };
 

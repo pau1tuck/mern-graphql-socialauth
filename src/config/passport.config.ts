@@ -25,6 +25,9 @@ export const serializeUser = (matchingUser: IUser) => {
 };
 
 export const passportStrategies = () => {
+    /* passport.deserializeUser((_, done) => {
+        done(null, false);
+    }); */
     passport.use(
         new FacebookStrategy(
             {
